@@ -23,6 +23,29 @@ python analysis.py
 
 Results are written to `results.json` (charts are saved in `figures/`).
 
+## Results (latest run)
+
+On a synthetic arithmetic-and-branching Python function-pair dataset (1,000 held-out test pairs), a class-balanced logistic regression on surface features reached 80.4% accuracy, while a class-balanced LightGBM model adding behavioural execution features reached 99.5%.
+
+| Metric | Value |
+|---|---|
+| baseline_score | 0.804 |
+| improved_score | 0.9947 |
+| improvement | 0.1907 |
+| baseline_score_std | 1.11e-16 |
+| improved_score_std | 0.0004714 |
+| baseline_f1 | 0.7481 |
+| improved_f1 | 0.9912 |
+| baseline_f1_std | 0 |
+| improved_f1_std | 0.0007664 |
+| baseline_false_equiv_rate | 0.05212 |
+| improved_false_equiv_rate | 0.01629 |
+| test_inequivalent_share | 0.307 |
+
+Run on 2026-10-20. Full output: [results.json](results.json) · [run.log](run.log)
+
+Notes: Labels are grid-based (outputs agree on a fixed 13x13 grid), so pairs that differ only outside the grid are labelled equivalent; this is a small stand-in, not the paper's LLM benchmark. Both models use class-balanced weights. Logistic regression is deterministic, so its std across seeds is 0. No downloads are made, so no retry logic is needed. Generated code is internal generator output only, executed via exec. Test set used once; all tuning uses CV on train.
+
 ## Reference
 
 This project is motivated by the following paper:
