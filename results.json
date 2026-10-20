@@ -1,0 +1,32 @@
+{
+  "question": "Does adding behavioural evidence from running both programs on test inputs let a gradient-boosted classifier beat a surface-feature baseline at judging whether two small programs are semantically equivalent?",
+  "method": "Seeded generator of small arithmetic/branching Python function pairs; label = outputs differ on a dense grid. Stratified train/test split with fixed seed. Baseline and improved models are tuned by 3-fold CV on train only and scored once on test with seeds 42-44.",
+  "dataset": {
+    "name": "Synthetic arithmetic-and-branching Python function pairs (seeded generator)",
+    "source_url": "https://numpy.org",
+    "n_rows": 4000,
+    "n_train": 3000,
+    "n_test": 1000,
+    "same_as_paper": false,
+    "baseline_is_papers_method": false
+  },
+  "metric_name": "accuracy (held-out test split)",
+  "higher_is_better": true,
+  "baseline": "Logistic regression (standardised, class-balanced) on surface token-overlap and length features of the two sources; no execution.",
+  "improved": "LightGBM classifier (class-balanced) on the same surface features plus behavioural features from executing both programs on 64 separate random inputs (agreement rate, output-difference statistics); gain importance reported.",
+  "metrics": {
+    "baseline_score": 0.8039999999999999,
+    "improved_score": 0.9946666666666667,
+    "improvement": 0.19066666666666676,
+    "baseline_score_std": 1.1102230246251565e-16,
+    "improved_score_std": 0.00047140452079103207,
+    "baseline_f1": 0.7480719794344473,
+    "improved_f1": 0.991247857726094,
+    "baseline_f1_std": 0.0,
+    "improved_f1_std": 0.0007664495156202937,
+    "baseline_false_equiv_rate": 0.05211726384364821,
+    "improved_false_equiv_rate": 0.016286644951140065,
+    "test_inequivalent_share": 0.307
+  },
+  "notes": "Labels are grid-based (outputs agree on a fixed 13x13 grid), so pairs that differ only outside the grid are labelled equivalent; this is a small stand-in, not the paper's LLM benchmark. Both models use class-balanced weights. Logistic regression is deterministic, so its std across seeds is 0. No downloads are made, so no retry logic is needed. Generated code is internal generator output only, executed via exec. Test set used once; all tuning uses CV on train."
+}
